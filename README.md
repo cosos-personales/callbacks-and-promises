@@ -84,3 +84,52 @@ A Promise is an object representing the eventual completion or failure of an asy
 
 Essentially, a promise is a returned object to which you attach callbacks, instead of passing callbacks into a function.
 
+```javascript
+const heroes= [
+    {
+        name: 'spiderman',
+        power: 'being humble'
+    },
+    {
+        name: 'iron man',
+        power: 'not being humble'
+    },
+    {
+        name: 'hulk',
+        power: 'humlkble'
+    }
+];
+
+//for promises
+export const searchHero = (id) => {
+    const hero = heroes[id];
+    return new Promise( (resolve, reject) => {
+        if(hero){
+            resolve(hero);
+        } else {
+            reject(`Hero ${id} doesn't exist`);
+        }
+    });
+}
+
+```
+
+```javascript
+import { searchHero } from "./heroes.js";
+
+//Readble code 📚
+searchHero(1)
+    .then( data => console.log(`Hero is ${ data.name }`))
+    .catch( err => console.error(err))
+//Output: Hero is iron man
+
+//No callback hell 🤌🤌
+//With Promises.all()
+Promise.all([searchHero(1), searchHero(2)])
+    .then( ([hero1, hero2]) => console.log(`${hero1.name} and ${hero2.name}`))
+    .catch(err => console.log(err))
+     //finally is a method that always executed
+    .finally( () => console.log(`that's all folks 🐰`) )
+    //Output: iron man and hulk
+    //        that's all folks 🐰
+```
